@@ -25,6 +25,7 @@
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.10",
         "mockery/mockery": "^1.5.1",
+        "nunomaduro/larastan": "^2.6",
         "pestphp/pest": "^2.5"
     },
     "autoload": {
