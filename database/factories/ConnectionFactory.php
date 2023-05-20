@@ -9,15 +9,12 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ConnectionFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            //
+            'host' => fake()->domainName(),
+            'password' => fake()->password(),
+            'username' => fake()->userName(),
         ];
     }
 }
