@@ -2,43 +2,25 @@
 
 namespace App\Commands;
 
-use Illuminate\Console\Scheduling\Schedule;
+use App\Connection;
 use LaravelZero\Framework\Commands\Command;
 
 class AddCommand extends Command
 {
-    /**
-     * The signature of the command.
-     *
-     * @var string
-     */
-    protected $signature = 'app:add-command';
+    protected $signature = 'add';
 
-    /**
-     * The description of the command.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
+    protected $description = 'Save database connection';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle()
     {
-        //
-    }
+        $host = $this->ask('What is the host name?');
+        $username = $this->ask('What is your user name?');
+        $password = $this->secret('What is your password?');
 
-    /**
-     * Define the command's schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
-     */
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
+        Connection::create([
+            'host' => $host,
+            'password' => $password,
+            'username' => $username,
+        ]);
     }
 }
