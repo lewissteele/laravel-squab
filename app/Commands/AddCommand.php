@@ -11,7 +11,7 @@ class AddCommand extends Command
 
     protected $description = 'Save database connection';
 
-    public function handle()
+    public function handle(): void
     {
         $host = $this->ask('What is the host name?');
         $username = $this->ask('What is your user name?');
