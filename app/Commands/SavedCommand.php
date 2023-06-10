@@ -15,7 +15,6 @@ class SavedCommand extends Command
     {
         if (Connection::doesntExist()) {
             $this->error('No database connections have been saved');
-
             return;
         }
 
