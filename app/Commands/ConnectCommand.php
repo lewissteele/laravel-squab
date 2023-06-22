@@ -2,43 +2,31 @@
 
 namespace App\Commands;
 
-use Illuminate\Console\Scheduling\Schedule;
+use App\Connection;
 use LaravelZero\Framework\Commands\Command;
+use PDO;
 
 class ConnectCommand extends Command
 {
-    /**
-     * The signature of the command.
-     *
-     * @var string
-     */
-    protected $signature = 'app:connect-command';
+    protected $signature = 'connect {connection}';
 
-    /**
-     * The description of the command.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
+    protected $description = 'Connect to database';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
+    public function handle(): void
     {
-        //
-    }
+        $connectionName = $this->argument('connection');
 
-    /**
-     * Define the command's schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
-     */
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
+        /** @var Connection */
+        $connection = Connection::where('host', $connectionName)->firstOrFail();
+        $db = $connection->getSavedDatabaseConnection();
+
+        //$answer = $this->ask('What query would you like to run?');
+        $answer = 'select * from public.migrations limit 2';
+        $result = $db->query($answer)->fetchAll(PDO::FETCH_ASSOC);
+
+        $this->table(
+            headers: collect(collect($result)->first())->keys()->toArray(),
+            rows: $result,
+        );
     }
 }

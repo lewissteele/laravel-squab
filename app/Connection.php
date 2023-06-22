@@ -6,6 +6,7 @@ use Illuminate\Database\Connection as DatabaseConnection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use PDO;
 
 /**
  * @property string $host
@@ -24,15 +25,10 @@ class Connection extends Model
 
     public function getSavedDatabaseConnection(): DatabaseConnection
     {
-        config()->set('database.connections.user', [
-            'database' => null,
-            'driver' => 'pgsql',
-            'host' => $this->host,
-            'password' => $this->password,
-            'port' => 5432,
-            'username' => $this->username,
-        ]);
-
-        return DB::connection('user');
+        return new DatabaseConnection(new PDO(
+            "pgsql:host=$this->host;port=5432",
+            $this->username,
+            $this->password,
+        ));
     }
 }
